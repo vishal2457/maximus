@@ -1,0 +1,22 @@
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-{{name}}-list',
+  template: ` <gb-grid-shell gridTitle="Customers" apiURL="/{{name}}/list">
+    <!-- columns -->
+
+    <gb-column field="id" alignment="left" title="ID" />
+    <gb-column field="name" />
+    <gb-column field="mobile" />
+    <gb-column title="Status" field="active">
+      <ng-template #cell let-item>
+        <gb-badge
+          [text]="item.active ? 'Active' : 'InActive'"
+          [variant]="item.active ? 'secondary' : 'destructive'"
+        />
+      </ng-template>
+    </gb-column>
+    <!-- columns -->
+  </gb-grid-shell>`,
+})
+export class App{{properCase name}}ListComponent {}

@@ -1,0 +1,12 @@
+<gb-form [form]="matchForm">
+  <div class="grid grid-cols-3 gap-4">
+    <gb-input
+      label="test"
+      [control]="matchFormControls.teamOne"
+      [showErrors]="showErrors"
+    />
+  </div>
+
+  <gb-textarea label="Description" [control]="matchFormControls.description" [showErrors]="showErrors" />
+  <gb-textarea label="H2H Team" [control]="matchFormControls.h2hTeam" [showErrors]="showErrors" />
+</gb-form>

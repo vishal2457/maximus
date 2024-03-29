@@ -1,0 +1,26 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@helpers": ["libs/src/index.ts"],
+      "@nx-gb/helpers": ["libs/helpers/src/index.ts"],
+      "jwt": ["libs/jwt/src/index.ts"],
+      "src/*": ["apps/admin/src/*"],
+      "tp-schema": ["libs/tp-schema/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

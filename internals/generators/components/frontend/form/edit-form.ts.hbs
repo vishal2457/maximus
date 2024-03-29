@@ -1,0 +1,31 @@
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { ApiService } from 'src/app/shared/services/api.service';
+import { GbNotification } from 'src/app/shared/ui/notification/notification.service';
+import { {{properCase name}}FormComponent } from './form/form.component';
+import { ActivatedRoute } from '@angular/router';
+import { SupabaseService } from 'src/app/shared/services/supabase.service';
+
+@Component({
+  selector: 'edit-{{name}}',
+  template: ` <page-header
+      header="Edit {{properCase name}}"
+      (save)="handleSubmit()"
+      [loading]="false"
+    />
+    <{{name}}-form />`,
+})
+export class Edit{{properCase name}}Component implements OnInit {
+  @ViewChild({{properCase name}}FormComponent) {{name}}Component!: {{properCase name}}FormComponent;
+
+  api = inject(ApiService);
+  notif = inject(GbNotification);
+  route = inject(ActivatedRoute);
+
+  itemID!: string;
+
+  ngOnInit(): void {
+    this.itemID = this.route.snapshot.params['id'];
+  }
+
+  handleSubmit() {}
+}

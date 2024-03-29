@@ -1,0 +1,66 @@
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  ViewChild,
+  inject,
+} from '@angular/core';
+import { {{properCase name}}FormComponent } from './form/form.component';
+import { ApiService } from 'src/app/shared/services/api.service';
+import { GbNotification } from 'src/app/shared/ui/notification/notification.service';
+import { FormGroup } from '@angular/forms';
+import { SubSink } from 'subsink';
+
+@Component({
+  selector: 'add-items',
+  template: `<page-header
+      header="Add {{properCase name}}"
+      (save)="handleSubmit()"
+      [loading]="false"
+    />
+    <{{name}}-form />`,
+})
+export class Add{{properCase name}}Component implements AfterViewInit, OnDestroy {
+  @ViewChild({{properCase name}}Component) {{properCase name}}FormComponent!: {{properCase name}}Component;
+
+  api = inject(ApiService);
+  notif = inject(GbNotification);
+
+  {{name}}Form!: FormGroup;
+  private addRequests = new SubSink();
+
+  ngOnDestroy(): void {
+    this.addRequests.unsubscribe();
+    this.notif.closeAll();
+  }
+
+  ngAfterViewInit(): void {
+    this.{{name}}Form = this.{{properCase name}}Component.{{name}}Form;
+  }
+
+  handleSubmit() {
+    if (this.{{name}}Form.invalid) {
+      this.{{properCase name}}Component.showErrors = true;
+      return;
+    }
+    this.addRequests.unsubscribe();
+    this.notif.show({
+      text: 'Adding item',
+      id: 'add-item',
+      type: 'loading',
+    });
+
+    this.addRequests.sink = this.api
+      .post('/{{name}}', this.{{name}}Form.value)
+      .subscribe({
+        next: () => {
+          this.{{name}}Form.reset();
+          this.notif.updateToast({
+            text: 'Item added',
+            id: 'add-item',
+            type: 'success',
+          });
+        },
+      });
+  }
+}

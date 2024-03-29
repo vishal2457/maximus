@@ -1,0 +1,31 @@
+{{deviceID.type}}
+import { DataTypes } from "sequelize";
+import { G_Model } from "../../../types/shared";
+import DbConnection from "../../../core/db/db";
+import { T{{properCase name}} } from "tp-schema";
+
+interface {{properCase name}} extends G_Model<{{properCase name}}>, T{{properCase name}} {}
+
+export const {{properCase name}} = DbConnection.db.define<{{properCase name}}>(
+  "{{properCase name}}",
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      unique: true,
+    },
+    deviceID: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    premium: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    }
+  },
+  {
+    timestamps: true,
+    indexes: [{ fields: ["deviceID"], using: "BTREE" }],
+  }
+);
