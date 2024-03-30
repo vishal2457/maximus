@@ -1,11 +1,11 @@
-import { NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { generateAndPatchValues } from 'src/app/dev/generate-values-dev';
-import { environment } from 'src/environments/environment.development';
+import { NgIf } from "@angular/common";
+import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { FormGroup, ReactiveFormsModule } from "@angular/forms";
+import { environment } from "src/environments/environment.development";
+import { ZodSchema } from "zod";
 
 @Component({
-  selector: 'gb-form',
+  selector: "gb-form",
   standalone: true,
   imports: [ReactiveFormsModule, NgIf],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,11 +23,23 @@ import { environment } from 'src/environments/environment.development';
 })
 export class GbFormComponent {
   @Input() form!: FormGroup;
+  @Input() zodSchema!: ZodSchema;
+
   environment = environment;
 
   patchRandomValues() {
     if (!environment.production) {
-      generateAndPatchValues(this.form.controls);
+      if (this.zodSchema) {
+        import("@anatine/zod-mock").then(({ generateMock }) => {
+          this.form.patchValue(generateMock(this.zodSchema));
+        });
+      } else {
+        import("src/app/dev/generate-values-dev").then(
+          ({ generateAndPatchValues }) => {
+            generateAndPatchValues(this.form.controls);
+          }
+        );
+      }
     }
   }
 }

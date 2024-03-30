@@ -17,6 +17,7 @@ const BACKUPFILE_EXTENSION = "rbgen";
 module.exports = (plop) => {
   plop.setGenerator("component", mainGenerator);
   plop.addHelper("curly", (object, open) => (open ? "{" : "}"));
+
   plop.setActionType("prettify", (answers, config) => {
     const folderPath = `${path.join(
       __dirname,

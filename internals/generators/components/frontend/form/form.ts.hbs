@@ -7,6 +7,7 @@ import { GbSelectComponent } from 'src/app/shared/ui/form/gb-select';
 import { T{{properCase name}}Body } from 'tp-schema';
 import { ControlsOf } from 'src/app/shared/utils/form-controls-of';
 import { GAME_SLUGS } from 'libs/tp-schema/src/lib/game/game';
+import { {{zodSchema}} } from "tp-schema"
 
 @Component({
   selector: '{{name}}-form',
@@ -24,14 +25,7 @@ export class {{properCase name}}FormComponent {
   showErrors = false;
   dialogRef!: DialogRef<any>;
   file: any;
-  GAMES = Array.from(GAME_SLUGS);
-
-  menuName = new FormControl('', Validators.required);
-  ingredientName = new FormControl('', Validators.required);
-  controlOptions = {
-    validators: [Validators.required],
-    nonNullable: true,
-  };
+  {{zodSchema}} = {{zodSchema}}
 
   {{name}}Form = this.fb.nonNullable.group<ControlsOf<T{{properCase name}}Body>>({
     gameSlug: new FormControl('cricket', {

@@ -2,7 +2,7 @@ import { Router } from "express";
 import ah from "../../core/utils/async-handler.util";
 import { {{properCase name}} } from "./models/{{name}}.model";
 import { validate } from "../../core/middlewares/validation.middleware";
-import { v_param_id, v_{{name}} } from "tp-schema";
+import { v_param_id, {{zodSchema}} } from "tp-schema";
 import { success } from "proses-response";
 
 const {{properCase name}}Router = Router();
@@ -10,7 +10,7 @@ const {{properCase name}}Router = Router();
 {{properCase name}}Router
 .post(
   "/",
-  validate({ body: v_{{name}}.pick({ deviceID: true }) }),
+  validate({ body: {{zodSchema}}.omit({ id: true }) }),
   ah(async (req, res) => {
     const result = await {{properCase name}}.create(req.body);
     success(res, result, "{{properCase name}} added");
@@ -18,7 +18,7 @@ const {{properCase name}}Router = Router();
 )
 .put(
     '/:id',
-    validate({ body: v_{{name}}.omit({ id: true }), params: v_param_id }),
+    validate({ body: {{zodSchema}}.omit({ id: true }), params: v_param_id }),
     ah(async (req, res) => {
       const result = await {{properCase name}}.update(req.body, {
         where: { id: req.params.id },
@@ -32,6 +32,14 @@ const {{properCase name}}Router = Router();
   ah(async (req, res) => {
     const result = await {{properCase name}}.findAndCountAll(req.modelOptions);
     success(res, result, '{{properCase name}} List');
+  })
+)
+.delete(
+  "/:id",
+  validate({ params: v_param_id }),
+  ah(async (req, res) => {
+    const result = await {{properCase name}}.destroy({ where: { id: req.params.id } });
+    success(res, result, "Delete success");
   })
 )
 

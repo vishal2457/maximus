@@ -1,6 +1,6 @@
 export const APP_CONFIG = {
   panelConfig: {
-    name: "Fun Fantasy Admin",
-    shortName: "FA",
+    name: "Maximus",
+    shortName: "MX",
   },
 };
