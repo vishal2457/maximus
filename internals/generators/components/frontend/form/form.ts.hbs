@@ -1,12 +1,7 @@
 import { Component, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { Dialog, DialogRef } from '@angular/cdk/dialog';
-import { ApiService } from 'src/app/shared/services/api.service';
-import { GbNotification } from 'src/app/shared/ui/notification/notification.service';
-import { GbSelectComponent } from 'src/app/shared/ui/form/gb-select';
-import { T{{properCase name}}Body } from 'tp-schema';
+import { T{{properCase name}} } from 'tp-schema';
 import { ControlsOf } from 'src/app/shared/utils/form-controls-of';
-import { GAME_SLUGS } from 'libs/tp-schema/src/lib/game/game';
 import { {{zodSchema}} } from "tp-schema"
 
 @Component({
@@ -14,105 +9,26 @@ import { {{zodSchema}} } from "tp-schema"
   templateUrl: './form.component.html',
 })
 export class {{properCase name}}FormComponent {
-  @ViewChild('menuSelect', { static: true }) menuSelect!: GbSelectComponent;
-  @ViewChild('ingredients', { static: true }) ingredients!: GbSelectComponent;
-
-  private fb = inject(FormBuilder);
-  private dialog = inject(Dialog);
-  private api = inject(ApiService);
-  private notif = inject(GbNotification);
 
   showErrors = false;
-  dialogRef!: DialogRef<any>;
-  file: any;
   {{zodSchema}} = {{zodSchema}}
 
-  {{name}}Form = this.fb.nonNullable.group<ControlsOf<T{{properCase name}}Body>>({
-    gameSlug: new FormControl('cricket', {
-      validators: [Validators.required],
+  private fb = inject(FormBuilder);
+
+  {{name}}Form = this.fb.nonNullable.group<ControlsOf<T{{properCase name}}>>({
+    {{#each schemaValue.properties}}
+    {{@key}}: new FormControl(null, {
+      validators: [
+      {{#if this.required}}Validators.required,{{/if}}
+      {{#if this.minLength}}Validators.minLength({{this.minLength}}){{/if}}
+      ],
       nonNullable: true,
     }),
-    teamOne: new FormControl('', {
-      validators: [Validators.required],
-      nonNullable: true,
-    }),
-    teamTwo: new FormControl('', {
-      validators: [Validators.required],
-      nonNullable: true,
-    }),
-    h2hTeam: new FormControl('', {
-      validators: [Validators.required],
-      nonNullable: true,
-    }),
-    league: new FormControl('', {
-      validators: [Validators.required],
-      nonNullable: true,
-    }),
-    venue: new FormControl('', {
-      validators: [Validators.required],
-      nonNullable: true,
-    }),
-    startTime: new FormControl('', {
-      validators: [Validators.required],
-      nonNullable: true,
-    }),
-    status: new FormControl('waiting', {
-      validators: [Validators.required],
-      nonNullable: true,
-    }),
-    description: new FormControl('', {
-      validators: [Validators.required],
-      nonNullable: true,
-    }),
+    {{/each}}
   });
-  get {{name}}FormControls() {
+
+  get formControls() {
     return this.{{name}}Form.controls;
   }
 
-  openDialog(ref: any) {
-    this.dialogRef = this.dialog.open(ref);
-  }
-
-  close() {
-    if (!this.dialogRef) {
-      return;
-    }
-    this.dialogRef.close();
-  }
-
-  handleMenuSubmit() {
-    this.api.post('/menu', { name: this.menuName.value }).subscribe({
-      next: () => {
-        this.menuSelect.getItems();
-        this.menuName.reset();
-        this.dialogRef.close();
-        this.notif.show({
-          text: 'Menu added',
-          type: 'success',
-          id: 'add-menu',
-        });
-      },
-    });
-  }
-
-  handleIngredientSubmit() {
-    this.api
-      .post('/ingredient', { name: this.ingredientName.value })
-      .subscribe({
-        next: () => {
-          this.ingredients.getItems();
-          this.ingredientName.reset();
-          this.dialogRef.close();
-          this.notif.show({
-            text: 'Ingredient added',
-            type: 'success',
-            id: 'add-menu',
-          });
-        },
-      });
-  }
-
-  handleFileChange(e: any) {
-    this.file = e.target.files[0];
-  }
 }

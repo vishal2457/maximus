@@ -1,12 +1,25 @@
-<gb-form [form]="matchForm" [zodSchema]="{{zodSchema}}" >
-  <div class="grid grid-cols-3 gap-4">
-    <gb-input
-      label="test"
-      [control]="matchFormControls.teamOne"
-      [showErrors]="showErrors"
-    />
-  </div>
+<gb-form [form]='matchForm' [zodSchema]='{{zodSchema}}'>
+  <div class='grid grid-cols-3 gap-4'>
+    {{#each schemaValue.properties}}
 
-  <gb-textarea label="Description" [control]="matchFormControls.description" [showErrors]="showErrors" />
-  <gb-textarea label="H2H Team" [control]="matchFormControls.h2hTeam" [showErrors]="showErrors" />
+      <gb-input
+        label='{{properCase @key}}'
+        [control]='formControls.{{@key}}'
+        [showErrors]='showErrors'
+        {{#eq this.type 'number'}}
+          type="number"
+        {{/eq}}
+      />
+    {{/each}}
+  </div>
+  <gb-textarea
+    label='Description'
+    [control]='matchFormControls.description'
+    [showErrors]='showErrors'
+  />
+  <gb-textarea
+    label='H2H Team'
+    [control]='matchFormControls.h2hTeam'
+    [showErrors]='showErrors'
+  />
 </gb-form>

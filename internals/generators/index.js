@@ -4,28 +4,33 @@
  * Exports the generators so plop knows them
  */
 
-const path = require("path");
-const { execSync } = require("child_process");
-const mainGenerator = require("./components/index.js");
-const { zodToJsonSchema } = require("zod-to-json-schema");
+const path = require('path');
+const { execSync } = require('child_process');
+const mainGenerator = require('./components/index.js');
+const { zodToJsonSchema } = require('zod-to-json-schema');
 /**
  * Every generated backup file gets this extension
  * @type {string}
  */
-const BACKUPFILE_EXTENSION = "rbgen";
+const BACKUPFILE_EXTENSION = 'rbgen';
 
 module.exports = (plop) => {
-  plop.setGenerator("component", mainGenerator);
-  plop.addHelper("curly", (object, open) => (open ? "{" : "}"));
-
-  plop.setActionType("prettify", (answers, config) => {
+  plop.setGenerator('component', mainGenerator);
+  plop.addHelper('curly', (object, open) => (open ? '{' : '}'));
+  plop.addHelper('eq', function (v1, v2, options) {
+    if (v1 === v2) {
+      return options.fn(this);
+    }
+    return options.inverse(this);
+  });
+  plop.setActionType('prettify', (answers, config) => {
     const folderPath = `${path.join(
       __dirname,
-      "/../../app/",
+      '/../../app/',
       config.path,
-      plop.getHelper("properCase")(answers.name),
-      "**",
-      "**.js"
+      plop.getHelper('properCase')(answers.name),
+      '**',
+      '**.js'
     )}`;
 
     try {
