@@ -3,6 +3,7 @@ const dataTypes = require('./constants');
 
 const transformData = (schemaDefinition) => {
   const sequelizedData = transformForSequelizeModel(schemaDefinition);
+  const formData = trand
   return sequelizedData;
 };
 
@@ -35,7 +36,7 @@ function transformForSequelizeModel(schemaDefinition) {
 
     if (obj.description) {
       const parsedQuery = queryStringToObject(obj.description);
-      if (parsedQuery.sequelize.length) {
+      if (parsedQuery.sequelize?.length) {
         obj.unique = parsedQuery.sequelize.includes(GENERATOR_CONSTANTS.UNIQ);
         obj.primary = parsedQuery.sequelize.includes(
           GENERATOR_CONSTANTS.PRIMARY
@@ -53,6 +54,28 @@ function transformForSequelizeModel(schemaDefinition) {
   }
   return schemaDefinition;
 }
+
+function transformForForm(schemaDefinition) {
+  
+  for (const key in schemaDefinition.properties) {
+    const obj = schemaDefinition.properties[key];
+
+    if (obj.description) {
+      const parsedQuery = queryStringToObject(obj.description);
+      if (parsedQuery.form?.length) {
+        obj.inputType = parsedQuery.form.includes(GENERATOR_CONSTANTS.UNIQ);
+        //check for default values
+        const def = parsedQuery.sequelize.find((val) =>
+          val.includes(GENERATOR_CONSTANTS.DEFAULT_VALUE)
+        );
+        if (def) {
+          obj.defaultValue = def.split(':')[1];
+        }
+      }
+    }
+  }
+}
+
 
 function queryStringToObject(queryString) {
   const pairs = queryString.split('&');
