@@ -3,8 +3,8 @@ const dataTypes = require('./constants');
 
 const transformData = (schemaDefinition) => {
   const sequelizedData = transformForSequelizeModel(schemaDefinition);
-  const formData = trand
-  return sequelizedData;
+  const formData = transformForForm(sequelizedData)
+  return formData;
 };
 
 module.exports = transformData;
@@ -36,6 +36,8 @@ function transformForSequelizeModel(schemaDefinition) {
 
     if (obj.description) {
       const parsedQuery = queryStringToObject(obj.description);
+      obj.parsedQuery = parsedQuery;
+
       if (parsedQuery.sequelize?.length) {
         obj.unique = parsedQuery.sequelize.includes(GENERATOR_CONSTANTS.UNIQ);
         obj.primary = parsedQuery.sequelize.includes(
@@ -59,26 +61,29 @@ function transformForForm(schemaDefinition) {
   
   for (const key in schemaDefinition.properties) {
     const obj = schemaDefinition.properties[key];
-
-    if (obj.description) {
-      const parsedQuery = queryStringToObject(obj.description);
-      if (parsedQuery.form?.length) {
-        obj.inputType = parsedQuery.form.includes(GENERATOR_CONSTANTS.UNIQ);
-        //check for default values
-        const def = parsedQuery.sequelize.find((val) =>
-          val.includes(GENERATOR_CONSTANTS.DEFAULT_VALUE)
+    if (obj?.parsedQuery && obj.parsedQuery.form?.length) {
+        obj.skipForm = obj.parsedQuery.form.includes(GENERATOR_CONSTANTS.WEB_FORM.SKIP);
+        // determine type
+        const typeSelect = obj.parsedQuery.form.find((val) =>
+          val.includes(GENERATOR_CONSTANTS.WEB_FORM.SELECT)
         );
-        if (def) {
-          obj.defaultValue = def.split(':')[1];
+        if (typeSelect) {
+          obj.formType = GENERATOR_CONSTANTS.WEB_FORM.SELECT;
         }
-      }
+        const typeTextarea = obj.parsedQuery.form.find((val) =>
+        val.includes(GENERATOR_CONSTANTS.WEB_FORM.TEXT_AREA)
+        );
+        if (typeTextarea) {
+          obj.formType = GENERATOR_CONSTANTS.WEB_FORM.TEXT_AREA;
+        }
     }
   }
+  return schemaDefinition
 }
 
 
 function queryStringToObject(queryString) {
-  const pairs = queryString.split('&');
+  const pairs = queryString.split(';');
   const result = {};
 
   pairs.forEach((pair) => {

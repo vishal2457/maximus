@@ -43,8 +43,29 @@ module.exports = {
       return [
         {
           type: 'add',
+          path: '../../apps/admin/src/app/features/{{name}}/{{name}}-form/form/form.component.html',
+          templateFile: './components/frontend/form/form.html.hbs',
+          skipIfExists: true,
+          data: { schemaValue: schemaDefinition },
+        },
+        {
+          type: 'add',
           path: '../../apps/admin/src/app/features/{{name}}/{{name}}-form/form/form.component.ts',
           templateFile: './components/frontend/form/form.ts.hbs',
+          skipIfExists: true,
+          data: { schemaValue: schemaDefinition },
+        },
+        {
+          type: 'add',
+          path: '../../apps/admin/src/app/features/{{name}}/{{name}}-form/add-form.component.ts',
+          templateFile: './components/frontend/form/add-form.ts.hbs',
+          skipIfExists: true,
+          data: { schemaValue: schemaDefinition },
+        },
+        {
+          type: 'add',
+          path: '../../apps/admin/src/app/features/{{name}}/{{name}}-form/edit-form.component.ts',
+          templateFile: './components/frontend/form/edit-form.ts.hbs',
           skipIfExists: true,
           data: { schemaValue: schemaDefinition },
         },
@@ -66,6 +87,12 @@ module.exports = {
         skipIfExists: true,
         data: { schemaValue: schemaDefinition },
       },
+      {
+        type: 'modify',
+        path: '../../apps/api/src/modules/index.ts',
+        pattern: /(\/\/ APPEND API ROUTES)/g,
+        template: '.use("/{{name}}", {{properCase name}}Router)\';\n$1',
+    },
       {
         type: 'add',
         path: '../../apps/admin/src/app/features/{{name}}/{{name}}.module.ts',
@@ -114,6 +141,12 @@ module.exports = {
         templateFile: './components/frontend/form/edit-form.ts.hbs',
         skipIfExists: true,
         data: { schemaValue: schemaDefinition },
+      },
+      {
+        type: 'modify',
+        path: '../../apps/admin/src/app/app-routing.module.ts',
+        pattern: /(\/\/ APPEND ANGULAR ROUTES)/g,
+        templateFile: './components/frontend/append-route.ts.hbs',
       },
     ];
 

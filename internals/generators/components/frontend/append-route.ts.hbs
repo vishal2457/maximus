@@ -1,0 +1,8 @@
+      {
+        path: "app-{{name}}",
+        loadChildren: () =>
+          import("./features/app-{{name}}/app-{{name}}.module").then(
+            (m) => m.{{properCase name}}Module
+          ),
+      },
+// APPEND ANGULAR ROUTES

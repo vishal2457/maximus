@@ -7,9 +7,9 @@
     PRIMARY: 'primary',
     DEFAULT_VALUE: 'defaultValue',
     WEB_FORM: {
-        TEXT_AREA: 'textArea',
+        TEXT_AREA: 'textarea',
         SELECT: 'select',
-        GENERIC: 'generic'
+        SKIP: 'skip'
     }
 }
 

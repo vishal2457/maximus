@@ -21,10 +21,10 @@ export class Edit{{properCase name}}Component implements OnInit {
   notif = inject(GbNotification);
   route = inject(ActivatedRoute);
 
-  itemID!: string;
+  {{name}}ID!: string;
 
   ngOnInit(): void {
-    this.itemID = this.route.snapshot.params['id'];
+    this.{{name}}ID = this.route.snapshot.params['id'];
   }
 
   handleSubmit() {}
