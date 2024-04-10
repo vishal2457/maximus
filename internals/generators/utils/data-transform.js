@@ -70,11 +70,14 @@ function transformForForm(schemaDefinition) {
         if (typeSelect) {
           obj.formType = GENERATOR_CONSTANTS.WEB_FORM.SELECT;
         }
-        const typeTextarea = obj.parsedQuery.form.find((val) =>
-        val.includes(GENERATOR_CONSTANTS.WEB_FORM.TEXT_AREA)
-        );
-        if (typeTextarea) {
-          obj.formType = GENERATOR_CONSTANTS.WEB_FORM.TEXT_AREA;
+
+        const formTypes = Object.values(GENERATOR_CONSTANTS.WEB_FORM.TYPES);
+
+        for (const type of formTypes) {
+          const formType = obj.parsedQuery.form.find((val) => val.includes(type));
+          if(formType) {
+            obj.formType = formType
+          }
         }
     }
   }

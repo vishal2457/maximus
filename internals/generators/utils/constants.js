@@ -7,8 +7,10 @@
     PRIMARY: 'primary',
     DEFAULT_VALUE: 'defaultValue',
     WEB_FORM: {
-        TEXT_AREA: 'textarea',
-        SELECT: 'select',
+        TYPES: {
+            TEXT_AREA: 'textarea',
+            SELECT: 'select',
+        },
         SKIP: 'skip'
     }
 }
