@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { ApiService } from 'src/app/shared/services/api.service';
-import { GbNotification } from 'src/app/shared/ui/notification/notification.service';
+import { MxNotification } from 'src/app/shared/ui/notification/notification.service';
 import { {{properCase name}}FormComponent } from './form/form.component';
 import { ActivatedRoute } from '@angular/router';
 import { SupabaseService } from 'src/app/shared/services/supabase.service';
@@ -18,7 +18,7 @@ export class Edit{{properCase name}}Component implements OnInit {
   @ViewChild({{properCase name}}FormComponent) {{name}}Component!: {{properCase name}}FormComponent;
 
   api = inject(ApiService);
-  notif = inject(GbNotification);
+  notif = inject(MxNotification);
   route = inject(ActivatedRoute);
 
   {{name}}ID!: string;

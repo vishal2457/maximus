@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { {{properCase name}}FormComponent } from './form/form.component';
 import { ApiService } from 'src/app/shared/services/api.service';
-import { GbNotification } from 'src/app/shared/ui/notification/notification.service';
+import { MxNotification } from 'src/app/shared/ui/notification/notification.service';
 import { FormGroup } from '@angular/forms';
 import { SubSink } from '@nx-gb/subsink';
 
@@ -24,7 +24,7 @@ export class Add{{properCase name}}Component implements AfterViewInit, OnDestroy
   @ViewChild({{properCase name}}Component) {{properCase name}}FormComponent!: {{properCase name}}Component;
 
   api = inject(ApiService);
-  notif = inject(GbNotification);
+  notif = inject(MxNotification);
 
   {{name}}Form!: FormGroup;
   private addRequests = new SubSink();
