@@ -2,7 +2,7 @@ import { OverlayRef } from '@angular/cdk/overlay';
 import { NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, OnDestroy, OnInit, QueryList, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { SubSink } from 'subsink';
+import { SubSink } from '@nx-gb/subsink';
 import { SgbButtonComponent } from '../../ui/button';
 import { GbSelectComponent } from '../../ui/form/gb-select';
 import { GbInputComponent } from '../../ui/form/gb-input';

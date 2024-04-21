@@ -17,6 +17,7 @@
     "paths": {
       "@helpers": ["libs/src/index.ts"],
       "@nx-gb/helpers": ["libs/helpers/src/index.ts"],
+      "@nx-gb/subsink": ["libs/subsink/src/index.ts"],
       "jwt": ["libs/jwt/src/index.ts"],
       "src/*": ["apps/admin/src/*"],
       "tp-schema": ["libs/tp-schema/src/index.ts"]

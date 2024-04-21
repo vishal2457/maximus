@@ -28,7 +28,7 @@ import { PaginationService } from './services/pagination.service';
 import { MetaDataService } from './services/meta-data.service';
 import { GbActionComponent } from './components/base-table/action';
 import { GbGridToolbarComponent } from './components/toolbar/gb-toolbar';
-import { SubSink } from 'subsink';
+import { SubSink } from '@nx-gb/subsink';
 
 @Component({
   selector: 'gb-data-grid',

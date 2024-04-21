@@ -6,18 +6,18 @@ import {
   OnInit,
   Output,
   inject,
-} from "@angular/core";
-import { Router } from "@angular/router";
-import { SidebarService } from "src/app/shared/services/sidebar.service";
-import { ThemeService } from "src/app/shared/services/theme.service";
-import { APP_CONFIG } from "src/config";
-import { environment } from "src/environments/environment.development";
-import { SubSink } from "subsink";
+} from '@angular/core';
+import { Router } from '@angular/router';
+import { SidebarService } from 'src/app/shared/services/sidebar.service';
+import { ThemeService } from 'src/app/shared/services/theme.service';
+import { APP_CONFIG } from 'src/config';
+import { environment } from 'src/environments/environment.development';
+import { SubSink } from '@nx-gb/subsink';
 
 @Component({
-  selector: "gb-header",
-  templateUrl: "./header.component.html",
-  styleUrls: ["./header.component.scss"],
+  selector: 'gb-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   themeService = inject(ThemeService);
@@ -41,6 +41,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    this.router.navigate(["/auth"]);
+    this.router.navigate(['/auth']);
   }
 }

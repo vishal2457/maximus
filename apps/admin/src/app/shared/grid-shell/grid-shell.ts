@@ -11,7 +11,7 @@ import {
   QueryList,
   inject,
 } from '@angular/core';
-import { SubSink } from 'subsink';
+import { SubSink } from '@nx-gb/subsink';
 import { ApiService } from '../services/api.service';
 import { GbActionComponent } from '../ui/gb-data-grid/components/base-table/action';
 import { GbGridColumnsComponent } from '../ui/gb-data-grid/components/base-table/columns';

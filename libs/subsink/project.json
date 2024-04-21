@@ -1,0 +1,19 @@
+{
+  "name": "@nx-gb/subsink",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/subsink/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:swc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/subsink",
+        "main": "libs/subsink/src/index.ts",
+        "tsConfig": "libs/subsink/tsconfig.lib.json",
+        "assets": ["libs/subsink/*.md"]
+      }
+    }
+  }
+}

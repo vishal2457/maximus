@@ -1,9 +1,10 @@
-const GENERATOR_CONSTANTS = require('./constants');
-const dataTypes = require('./constants');
+const GENERATOR_CONSTANTS = require("./constants");
+const dataTypes = require("./constants");
+const qr = require("query-string");
 
 const transformData = (schemaDefinition) => {
   const sequelizedData = transformForSequelizeModel(schemaDefinition);
-  const formData = transformForForm(sequelizedData)
+  const formData = transformForForm(sequelizedData);
   return formData;
 };
 
@@ -13,11 +14,11 @@ function transformForSequelizeModel(schemaDefinition) {
   for (const key in schemaDefinition.properties) {
     const obj = schemaDefinition.properties[key];
 
-    if (obj.type === 'string') {
+    if (obj.type === "string") {
       obj.dataType = dataTypes.STRING;
-    } else if (obj.type === 'boolean') {
+    } else if (obj.type === "boolean") {
       obj.dataType = dataTypes.BOOLEAN;
-    } else if (obj.type === 'number') {
+    } else if (obj.type === "number") {
       obj.dataType = dataTypes.INTEGER;
     }
 
@@ -35,7 +36,7 @@ function transformForSequelizeModel(schemaDefinition) {
     }
 
     if (obj.description) {
-      const parsedQuery = queryStringToObject(obj.description);
+      const parsedQuery = qs.parse(obj.description);
       obj.parsedQuery = parsedQuery;
 
       if (parsedQuery.sequelize?.length) {
@@ -49,7 +50,7 @@ function transformForSequelizeModel(schemaDefinition) {
           val.includes(GENERATOR_CONSTANTS.DEFAULT_VALUE)
         );
         if (def) {
-          obj.defaultValue = def.split(':')[1];
+          obj.defaultValue = def.split(":")[1];
         }
       }
     }
@@ -58,40 +59,40 @@ function transformForSequelizeModel(schemaDefinition) {
 }
 
 function transformForForm(schemaDefinition) {
-  
   for (const key in schemaDefinition.properties) {
     const obj = schemaDefinition.properties[key];
     if (obj?.parsedQuery && obj.parsedQuery.form?.length) {
-        obj.skipForm = obj.parsedQuery.form.includes(GENERATOR_CONSTANTS.WEB_FORM.SKIP);
-        // determine type
-        const typeSelect = obj.parsedQuery.form.find((val) =>
-          val.includes(GENERATOR_CONSTANTS.WEB_FORM.SELECT)
-        );
-        if (typeSelect) {
-          obj.formType = GENERATOR_CONSTANTS.WEB_FORM.SELECT;
-        }
+      obj.skipForm = obj.parsedQuery.form.includes(
+        GENERATOR_CONSTANTS.WEB_FORM.SKIP
+      );
+      // determine type
+      const typeSelect = obj.parsedQuery.form.find((val) =>
+        val.includes(GENERATOR_CONSTANTS.WEB_FORM.SELECT)
+      );
+      if (typeSelect) {
+        obj.formType = GENERATOR_CONSTANTS.WEB_FORM.SELECT;
+      }
 
-        const formTypes = Object.values(GENERATOR_CONSTANTS.WEB_FORM.TYPES);
+      const formTypes = Object.values(GENERATOR_CONSTANTS.WEB_FORM.TYPES);
 
-        for (const type of formTypes) {
-          const formType = obj.parsedQuery.form.find((val) => val.includes(type));
-          if(formType) {
-            obj.formType = formType
-          }
+      for (const type of formTypes) {
+        const formType = obj.parsedQuery.form.find((val) => val.includes(type));
+        if (formType) {
+          obj.formType = formType;
         }
+      }
     }
   }
-  return schemaDefinition
+  return schemaDefinition;
 }
 
-
 function queryStringToObject(queryString) {
-  const pairs = queryString.split(';');
+  const pairs = queryString.split(";");
   const result = {};
 
   pairs.forEach((pair) => {
-    const [key, value] = pair.split('=');
-    result[key] = value.split(',');
+    const [key, value] = pair.split("=");
+    result[key] = value.split(",");
   });
 
   return result;
